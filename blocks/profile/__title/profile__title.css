@@ -1,0 +1,25 @@
+.profile__title {
+    color: white;
+    margin: 0;
+    padding-top: 16px;
+    font-family:  "Arial ", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+@media screen and (max-width: 900px) {
+    .profile__title {
+        padding: 14px 0 16px;
+        text-align: center;
+    }
+  }
+
+
+@media screen and (max-width: 450px) {
+    .profile__title {
+        font-size: 14px;
+        line-height: 17px;
+    }
+  }
