@@ -2,18 +2,15 @@ let popup = document.querySelector('.popup');
 let editBtn = document.querySelector('.profile__edit-btn');
 let popupClose = document.querySelector('.popup__close');
 
-let inputFirst = document.querySelector('.form__input_first');
-let secondFirst = document.querySelector('.form__input_second');
+let inputFirst = document.querySelector('.form__input_item_name');
+let secondFirst = document.querySelector('.form__input_item_job');
 
 let form = document.querySelector('.form');
 
 let profileSubtitle = document.querySelector('.profile__subtitle');
 let profileTitle = document.querySelector('.profile__title');
 
-editBtn.addEventListener('click', visible);
-popupClose.addEventListener('click', visible);
 
-form.addEventListener('submit', addform);
 
 function visible() {
     if (popup.classList.contains('popup_visible') === false) {
@@ -35,3 +32,6 @@ function addform(evt) {
     evt.preventDefault();
 }
 
+editBtn.addEventListener('click', visible);
+popupClose.addEventListener('click', visible);
+form.addEventListener('submit', addform);
