@@ -1,9 +1,9 @@
 let popup = document.querySelector('.popup_profile');
-let popupImg = document.querySelector('.popup__url');
+let popupImg = document.querySelector('.popup_url');
 
 let editBtn = document.querySelector('.profile__edit-btn');
 let popupClose = document.querySelector('.popup__close');
-let popupCloseImg = document.querySelector('.form__close_img');
+let popupCloseImg = document.querySelector('.form__close-img');
 
 let inputFirst = document.querySelector('.form__input_item_name');
 let inputSecond = document.querySelector('.form__input_item_job');
