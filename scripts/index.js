@@ -21,109 +21,103 @@ let imgBtn = document.querySelector('.profile__image-btn');
 
 
 
+const elements = document.querySelector('.elements');
 
 
-function visible() {
-  if (popup.classList.contains('popup_visible') === false) {
-    popup.classList.add('popup_visible');
-    inputFirst.value = profileSubtitle.textContent;
-    inputSecond.value = profileTitle.textContent;
-  } else {
-    popup.classList.remove('popup_visible');
-  }
+
+function popupEntrance(item) {
+  item.classList.add('popup_visible');
 }
 
-function addImg() {
-  if (popupImg.classList.contains('popup_visible') === false) {
-    popupImg.classList.add('popup_visible');
-    inputTarget.value = " ";
-    inputImg.value = " ";
-  } else {
-    popupImg.classList.remove('popup_visible');
-    inputTarget.value = " ";
-    inputImg.value = " ";
-
-  }
+function popupExit(item) {
+  item.classList.remove('popup_visible');
 }
 
+function OpenEditProfile() {
+  popupEntrance(popup);
+  inputFirst.value = profileSubtitle.textContent;
+  inputSecond.value = profileTitle.textContent;
+}
 
 function addform(evt) {
   profileSubtitle.textContent = inputFirst.value;
   profileTitle.textContent = inputSecond.value;
-  popup.classList.remove('popup_visible');
+  popupExit(popup);
   evt.preventDefault();
 }
 
+function togglelike (el) {
+  el.querySelector('.element__like-btn').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('element__like-btn_active');
+    }); 
+}
 
-imgBtn.addEventListener('click', addImg);
-editBtn.addEventListener('click', visible);
-popupClose.addEventListener('click', visible);
-popupCloseImg.addEventListener('click', addImg);
-form.addEventListener('submit', addform);
-formImg.addEventListener('submit', addCards);
+function delElement (el) {
+  el.querySelector('.element__trash').addEventListener('click', function (evt) {
+    const listItem = evt.target.closest('.element');
+    listItem.remove();
+    }); 
+}
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+
+
+
+
+function CreatElement(link,name) {
 const template = document.querySelector('.element-template').content;
-const elements = document.querySelector('.elements');
+const cardElement = template.querySelector('.element').cloneNode(true);
+const cardImg = cardElement.querySelector('.element__image');
+cardElement.querySelector('.element__text').textContent = name;
+const imgClose = document.querySelector('.popup__close_item_img');
+cardImg.src = link;
+cardImg.alt = name;
+togglelike (cardElement);
+delElement (cardElement);
+cardImg.addEventListener('click', Preview);
+imgClose.addEventListener('click', () => { popupExit(popupImgPre); });
+return cardElement;
+}
 
 
 function addCards(evt) {
-  const cardElement = template.querySelector('.element').cloneNode(true);
-  cardElement.querySelector('.element__image').src = inputImg.value;
-  cardElement.querySelector('.element__text').textContent = inputTarget.value;
-  cardElement.querySelector('.element__text').alt = inputTarget.value;
-  cardElement.querySelector('.element__like-btn').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('element__like-btn_active');
-  });
-  cardElement.querySelector('.element__trash').addEventListener('click', function (evt) {
-    const listItem = evt.target.closest('.element');
-    listItem.remove();
-  });
-  elements.prepend(cardElement);
-  popupImg.classList.remove('popup_visible');
-  evt.preventDefault();
+evt.preventDefault();
+const cardElement = CreatElement(inputImg.value,inputTarget.value);
+elements.prepend(cardElement);
+popupExit(popupImg);
 }
 
 
-
-
 initialCards.forEach (function(item){
-  const cardElement = template.querySelector('.element').cloneNode(true);
-  cardElement.querySelector('.element__image').src = item.link;
-  cardElement.querySelector('.element__text').textContent = item.name;
-  cardElement.querySelector('.element__text').alt = item.name;
-  cardElement.querySelector('.element__like-btn').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('element__like-btn_active');
-  });
-  cardElement.querySelector('.element__trash').addEventListener('click', function (evt) {
-    const listItem = evt.target.closest('.element');
-    listItem.remove();
-  });
-  elements.append(cardElement);
+  const cardElement = CreatElement(item.link,item.name);
+elements.append(cardElement);
 });
 
+editBtn.addEventListener('click', OpenEditProfile);
+popupClose.addEventListener('click', () => { popupExit(popup); });
+form.addEventListener('submit', addform);
+imgBtn.addEventListener('click', () => { popupEntrance(popupImg); });
+popupCloseImg.addEventListener('click', () => { popupExit(popupImg); });
+formImg.addEventListener('submit', addCards);
+
+
+
+
+
+
+
+
+
+const popupImgPre = document.querySelector('.popup_item-img');
+const imgPopup = document.querySelector('.popup__img');
+const imgTitle = document.querySelector('.popup__title-img');
+const imgClose = document.querySelector('.popup__close_item_img');
+
+
+function Preview (evt) { 
+  popupEntrance (popupImgPre);
+
+  imgPopup.src = evt.target.src;
+  imgTitle.textContent = evt.target.alt;
+  imgPopup.alt = evt.target.alt;
+  
+};
