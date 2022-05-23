@@ -1,5 +1,5 @@
 let popup = document.querySelector('.popup_profile');
-let popupImg = document.querySelector('.popup_img');
+let popupImg = document.querySelector('.popup__url');
 
 let editBtn = document.querySelector('.profile__edit-btn');
 let popupClose = document.querySelector('.popup__close');
