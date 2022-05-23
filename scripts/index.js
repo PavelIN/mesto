@@ -3,7 +3,7 @@ let popupImg = document.querySelector('.popup_url');
 
 let editBtn = document.querySelector('.profile__edit-btn');
 let popupClose = document.querySelector('.popup__close');
-let popupCloseImg = document.querySelector('.form__close-img');
+let popupCloseImg = document.querySelector('.popup__close-img');
 
 let inputFirst = document.querySelector('.form__input_item_name');
 let inputSecond = document.querySelector('.form__input_item_job');
