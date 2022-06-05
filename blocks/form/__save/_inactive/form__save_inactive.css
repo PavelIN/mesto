@@ -1,0 +1,6 @@
+.form__save_inactive{
+    color: rgb(184, 184, 184);
+    pointer-events: none;
+    user-select: none;
+    background: rgb(237, 237, 237);
+}
