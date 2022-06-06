@@ -1,25 +1,25 @@
 const popupList = Array.from(document.querySelectorAll('.popup'));
 
-let popupProfile = document.querySelector('.popup_profile');
-let popupImg = document.querySelector('.popup_url');
+const popupProfile = document.querySelector('.popup_profile');
+const popupImg = document.querySelector('.popup_url');
 
-let editBtn = document.querySelector('.profile__edit-btn');
-let popupClose = document.querySelector('.popup__close');
-let popupCloseImg = document.querySelector('.popup__close-img');
+const editBtn = document.querySelector('.profile__edit-btn');
+const popupClose = document.querySelector('.popup__close');
+const popupCloseImg = document.querySelector('.popup__close-img');
 
-let inputFirst = document.querySelector('.form__input_item_name');
-let inputSecond = document.querySelector('.form__input_item_job');
+const inputFirst = document.querySelector('.form__input_item_name');
+const inputSecond = document.querySelector('.form__input_item_job');
 
-let inputTarget = document.querySelector('.form__input_item_target');
-let inputImg = document.querySelector('.form__input_item_url');
+const inputTarget = document.querySelector('.form__input_item_target');
+const inputImg = document.querySelector('.form__input_item_url');
 
-let formProfile = document.querySelector('.form');
-let formImg = document.querySelector('.form-img');
+const formProfile = document.querySelector('.form');
+const formImg = document.querySelector('.form-img');
 
-let profileSubtitle = document.querySelector('.profile__subtitle');
-let profileTitle = document.querySelector('.profile__title');
+const profileSubtitle = document.querySelector('.profile__subtitle');
+const profileTitle = document.querySelector('.profile__title');
 
-let imgBtn = document.querySelector('.profile__image-btn');
+const imgBtn = document.querySelector('.profile__image-btn');
 
 
 
@@ -36,18 +36,31 @@ const template = document.querySelector('.element-template').content;
 
 
 
+function handleEscPress(evt) {
+  if (evt.key === 'Escape') {
+    popupList.forEach((popup) => {
+      if (popup.classList.contains('popup_visible')) {
+        popupExit(popup);
+      };
+    });
+  };
+};
+
 function popupEntrance(item) {
+  resetButtonSave();
   item.classList.add('popup_visible');
+  document.addEventListener("keydown", handleEscPress);
 }
 
 function popupExit(item) {
   item.classList.remove('popup_visible');
+  document.removeEventListener("keydown", handleEscPress);
 }
 
 function OpenEditProfile() {
-  popupEntrance(popupProfile);
   inputFirst.value = profileSubtitle.textContent;
   inputSecond.value = profileTitle.textContent;
+  popupEntrance(popupProfile);
 }
 
 function addform(evt) {
@@ -58,12 +71,10 @@ function addform(evt) {
 }
 
 function preview(evt) {
-  popupEntrance(popupImgPre);
-
   imgPopup.src = evt.target.src;
   imgTitle.textContent = evt.target.alt;
   imgPopup.alt = evt.target.alt;
-
+  popupEntrance(popupImgPre);
 };
 
 
@@ -86,8 +97,8 @@ function addCards(evt) {
   evt.preventDefault();
   const cardElement = CreatElement(inputImg.value, inputTarget.value);
   elements.prepend(cardElement);
-  inputImg.value=" ";
-  inputTarget.value=" ";
+  inputImg.value="";
+  inputTarget.value="";
   popupExit(popupImg);
 }
 
@@ -101,7 +112,7 @@ function verificationClass() {
   popupList.forEach((popupElement) => {
   popupElement.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup')) {
-    evt.target.classList.remove('popup_visible'); 
+    popupExit(evt.target) ;
  }
    });
   })
@@ -117,11 +128,10 @@ imgBtn.addEventListener('click', () => { popupEntrance(popupImg); });
 popupCloseImg.addEventListener('click', () => { popupExit(popupImg); });
 formImg.addEventListener('submit', addCards);
 imgClose.addEventListener('click', () => { popupExit(popupImgPre); });
-document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Escape') {
-    popupList.forEach((popupElement) => {
-      popupExit(popupElement);
-    });
-  }
-});
 
+
+
+ 
+  
+
+    

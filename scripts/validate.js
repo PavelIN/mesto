@@ -54,6 +54,13 @@ const showInputError = (formElement, inputElement, errorMessage,obj) => {
     }
   }; 
   
+  const resetButtonSave = () => {
+    const buttonList = Array.from(document.querySelectorAll('.form__save'));
+  buttonList.forEach((buttonElement) => {
+    buttonElement.classList.add('form__save_inactive');
+  });
+
+  };
   
   enableValidation({
     formSelector: '.form',
