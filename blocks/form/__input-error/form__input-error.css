@@ -4,4 +4,6 @@
     color: red;
     opacity: 0;
     transition: 0.3s;
+    margin: 5px 0 0;
+    line-height: 15px;
 }

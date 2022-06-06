@@ -86,6 +86,8 @@ function addCards(evt) {
   evt.preventDefault();
   const cardElement = CreatElement(inputImg.value, inputTarget.value);
   elements.prepend(cardElement);
+  inputImg.value=" ";
+  inputTarget.value=" ";
   popupExit(popupImg);
 }
 
@@ -95,7 +97,7 @@ initialCards.forEach(function (item) {
   elements.append(cardElement);
 });
 
-function sad() {
+function verificationClass() {
   popupList.forEach((popupElement) => {
   popupElement.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup')) {
@@ -104,7 +106,7 @@ function sad() {
    });
   })
 }
-sad();
+verificationClass();
 
 
 
