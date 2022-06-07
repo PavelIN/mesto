@@ -1,3 +1,12 @@
+const obj = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__save',
+  inactiveButtonClass: 'form__save_inactive',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__input-error_active'
+}
+
 const showInputError = (formElement, inputElement, errorMessage,obj) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(obj.inputErrorClass);
@@ -54,20 +63,15 @@ const showInputError = (formElement, inputElement, errorMessage,obj) => {
     }
   }; 
   
-  const resetButtonSave = () => {
-    const buttonList = Array.from(document.querySelectorAll('.form__save'));
-  buttonList.forEach((buttonElement) => {
-    buttonElement.classList.add('form__save_inactive');
-  });
-
+  const resetButtonSave = (obj,item) => {
+    const buttonReset = item.querySelector(obj.submitButtonSelector);
+    buttonReset.classList.add(obj.inactiveButtonClass);
   };
+
   
-  enableValidation({
-    formSelector: '.form',
-    inputSelector: '.form__input',
-    submitButtonSelector: '.form__save',
-    inactiveButtonClass: 'form__save_inactive',
-    inputErrorClass: 'form__input_type_error',
-    errorClass: 'form__input-error_active'
-  }); 
+  
+  
+
+
+  enableValidation(obj); 
   

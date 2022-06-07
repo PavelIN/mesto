@@ -47,7 +47,6 @@ function handleEscPress(evt) {
 };
 
 function popupEntrance(item) {
-  resetButtonSave();
   item.classList.add('popup_visible');
   document.addEventListener("keydown", handleEscPress);
 }
@@ -67,6 +66,7 @@ function addform(evt) {
   profileSubtitle.textContent = inputFirst.value;
   profileTitle.textContent = inputSecond.value;
   popupExit(popupProfile);
+  resetButtonSave(obj,popupProfile);
   evt.preventDefault();
 }
 
@@ -100,6 +100,7 @@ function addCards(evt) {
   inputImg.value="";
   inputTarget.value="";
   popupExit(popupImg);
+  resetButtonSave(obj,popupImg);
 }
 
 
@@ -121,13 +122,13 @@ verificationClass();
 
 
 
-editBtn.addEventListener('click', OpenEditProfile);
-popupClose.addEventListener('click', () => { popupExit(popupProfile); });
+editBtn.addEventListener('click',() => { OpenEditProfile()});
+popupClose.addEventListener('click', () => { popupExit(popupProfile)});
 formProfile.addEventListener('submit', addform);
-imgBtn.addEventListener('click', () => { popupEntrance(popupImg); });
-popupCloseImg.addEventListener('click', () => { popupExit(popupImg); });
+imgBtn.addEventListener('click', () => { popupEntrance(popupImg)});
+popupCloseImg.addEventListener('click', () => { popupExit(popupImg)});
 formImg.addEventListener('submit', addCards);
-imgClose.addEventListener('click', () => { popupExit(popupImgPre); });
+imgClose.addEventListener('click', () => { popupExit(popupImgPre)});
 
 
 
