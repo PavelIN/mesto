@@ -1,3 +1,6 @@
+import { resetButtonSave,obj } from "./validate.js";
+import { initialCards } from "./cards.js";
+
 const popupList = Array.from(document.querySelectorAll('.popup'));
 
 const popupProfile = document.querySelector('.popup_profile');
@@ -13,8 +16,8 @@ const inputSecond = document.querySelector('.form__input_item_job');
 const inputTarget = document.querySelector('.form__input_item_target');
 const inputImg = document.querySelector('.form__input_item_url');
 
-const formProfile = document.querySelector('.form');
-const formImg = document.querySelector('.form-img');
+export const formProfile = document.querySelector('.form');
+export const formImg = document.querySelector('.form-img');
 
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const profileTitle = document.querySelector('.profile__title');
@@ -32,17 +35,13 @@ const imgTitle = document.querySelector('.popup__title-img');
 
 const imgClose = document.querySelector('.popup__close_item_img');
 
-const template = document.querySelector('.element-template').content;
 
 
 
 function handleEscPress(evt) {
   if (evt.key === 'Escape') {
-    popupList.forEach((popup) => {
-      if (popup.classList.contains('popup_visible')) {
-        popupExit(popup);
-      };
-    });
+    const popup = document.querySelector('.popup_visible');
+    popupExit(popup);
   };
 };
 
@@ -66,73 +65,128 @@ function addform(evt) {
   profileSubtitle.textContent = inputFirst.value;
   profileTitle.textContent = inputSecond.value;
   popupExit(popupProfile);
-  resetButtonSave(obj,popupProfile);
+  resetButtonSave(obj, popupProfile);
   evt.preventDefault();
 }
 
-function preview(evt) {
-  imgPopup.src = evt.target.src;
-  imgTitle.textContent = evt.target.alt;
-  imgPopup.alt = evt.target.alt;
-  popupEntrance(popupImgPre);
+
+
+
+class Card {
+  constructor(name,link, cardSelector) {
+    this._name = name;
+    this._link = link;
+    this._cardSelector = cardSelector;
+  }
+
+  _getTemplate() {
+    const cardElement = document
+      .querySelector(this._cardSelector)
+      .content
+      .querySelector('.element')
+      .cloneNode(true);
+
+    return cardElement;
+  }
+
+  generateCard() {
+    this._element = this._getTemplate();
+    this._setEventListeners();
+
+    this._element.querySelector('.element__image').src = this._link;
+    this._element.querySelector('.element__text').textContent = this._name;
+    this._element.querySelector('.element__image').alt = this._name;
+    return this._element;
+  }
+
+  _setEventListeners() {
+    this._element.querySelector('.element__like-btn').addEventListener('click', () => {
+    this._handleMessageClick();
+    });
+    this._element.querySelector('.element__trash').addEventListener('click', () => {
+    this._handleTrashClick();
+    });
+    this._element.querySelector('.element__image').addEventListener('click', () => {
+    this._previewClick();
+    });
+    imgClose.addEventListener('click', () => {
+      this._closePopupImg();
+    })
+  }
+
+  _handleMessageClick() {
+    this._element.querySelector('.element__like-btn').classList.toggle('element__like-btn_active');
+  }
+
+  _handleTrashClick() {
+    this._element.remove();
+  }
+
+
+  _previewClick() {
+    imgPopup.src = this._link;
+    imgTitle.textContent = this._name;
+    imgTitle.alt = this._name;
+    popupEntrance(popupImgPre);
+  };
+  _closePopupImg() {
+    popupExit(popupImgPre);
+  };
+
+}
+
+const addCard = (name, link) => {
+  const card = new Card(name, link, '.element-template').generateCard();
+  elements.prepend(card);
 };
 
-
-function CreatElement(link, name) {
-  const cardElement = template.querySelector('.element').cloneNode(true);
-  const cardImg = cardElement.querySelector('.element__image');
-  cardElement.querySelector('.element__text').textContent = name;
-  const switchlike = cardElement.querySelector('.element__like-btn');
-  const delElement = cardElement.querySelector('.element__trash');
-  cardImg.src = link;
-  cardImg.alt = name;
-  switchlike.addEventListener('click', function (evt) { evt.target.classList.toggle('element__like-btn_active'); });
-  delElement.addEventListener('click', function (evt) { const listItem = evt.target.closest('.element'); listItem.remove(); });
-  cardImg.addEventListener('click', preview);
-  return cardElement;
-}
-
-
-function addCards(evt) {
+formImg.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const cardElement = CreatElement(inputImg.value, inputTarget.value);
-  elements.prepend(cardElement);
-  inputImg.value="";
-  inputTarget.value="";
+  addCard(inputTarget.value, inputImg.value);
+  inputTarget.value = '';
+  inputImg.value = '';
   popupExit(popupImg);
-  resetButtonSave(obj,popupImg);
-}
-
-
-initialCards.forEach(function (item) {
-  const cardElement = CreatElement(item.link, item.name);
-  elements.append(cardElement);
+  resetButtonSave(obj, popupImg);
 });
+
+
+initialCards.forEach((item) => {
+  const card = new Card(item.name,item.link,'.element-template');
+  const cardElement = card.generateCard();
+
+  elements.append(cardElement);
+}); 
 
 function verificationClass() {
   popupList.forEach((popupElement) => {
-  popupElement.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('popup')) {
-    popupExit(evt.target) ;
- }
-   });
+    popupElement.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup')) {
+        popupExit(evt.target);
+      }
+    });
   })
 }
 verificationClass();
 
 
 
-editBtn.addEventListener('click',() => { OpenEditProfile()});
-popupClose.addEventListener('click', () => { popupExit(popupProfile)});
+editBtn.addEventListener('click', () => { OpenEditProfile() });
+popupClose.addEventListener('click', () => { popupExit(popupProfile) });
 formProfile.addEventListener('submit', addform);
-imgBtn.addEventListener('click', () => { popupEntrance(popupImg)});
-popupCloseImg.addEventListener('click', () => { popupExit(popupImg)});
-formImg.addEventListener('submit', addCards);
-imgClose.addEventListener('click', () => { popupExit(popupImgPre)});
+imgBtn.addEventListener('click', () => { popupEntrance(popupImg) });
+popupCloseImg.addEventListener('click', () => { popupExit(popupImg) });
 
 
 
- 
-  
 
-    
+
+
+
+
+
+
+
+
+
+
+
