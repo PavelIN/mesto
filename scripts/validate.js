@@ -1,15 +1,5 @@
-import { formProfile,formImg } from './index.js';
 
-export const obj = {
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__save',
-  inactiveButtonClass: 'form__save_inactive',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active'
-}
-
-export default class FormValidator {
+export  class FormValidator {
 
   constructor(obj, formElement) {
     this._obj = obj;
@@ -73,16 +63,5 @@ export default class FormValidator {
         this._buttonElement.classList.remove(this._obj.inactiveButtonClass);
       }
     };
-
-    
   }
-
-export const resetButtonSave = (obj,item) => {
-    const buttonReset = item.querySelector(obj.submitButtonSelector);
-    buttonReset.classList.add(obj.inactiveButtonClass);
-  };
-
-  const formProfileValidator = new FormValidator(obj, formProfile);
-formProfileValidator.enableValidation();
-  const formAddCardValidator = new FormValidator(obj, formImg);
-formAddCardValidator.enableValidation();
+  
