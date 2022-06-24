@@ -1,5 +1,5 @@
 
-import {FormValidator} from './validate.js';
+import FormValidator from './validate.js';
 import Card from './cards.js';
 
 
@@ -52,90 +52,84 @@ const initialCards = [
   }
 ];
 
-
-
-
-  export const resetButtonSave = (obj,item) => {
-    const buttonReset = item.querySelector(obj.submitButtonSelector);
-    buttonReset.classList.add(obj.inactiveButtonClass);
+export const obj = {
+  formSelector: '.form',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__save',
+  inactiveButtonClass: 'form__save_inactive',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__input-error_active'
+}
+function handleEscPress(evt) {
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_visible');
+    popupExit(popup);
   };
+};
 
-  export const obj = {
-    formSelector: '.form',
-    inputSelector: '.form__input',
-    submitButtonSelector: '.form__save',
-    inactiveButtonClass: 'form__save_inactive',
-    inputErrorClass: 'form__input_type_error',
-    errorClass: 'form__input-error_active'
-  }
-  function handleEscPress(evt) {
-    if (evt.key === 'Escape') {
-      const popup = document.querySelector('.popup_visible');
-      popupExit(popup);
-    };
-  };
-  
 export function popupEntrance(item) {
-    item.classList.add('popup_visible');
-    document.addEventListener("keydown", handleEscPress);
-  }
-  
-export  function popupExit(item) {
-    item.classList.remove('popup_visible');
-    document.removeEventListener("keydown", handleEscPress);
-  }
-  
-  function OpenEditProfile() {
-    inputFirst.value = profileSubtitle.textContent;
-    inputSecond.value = profileTitle.textContent;
-    popupEntrance(popupProfile);
-  }
-  
-  function addform(evt) {
-    profileSubtitle.textContent = inputFirst.value;
-    profileTitle.textContent = inputSecond.value;
-    popupExit(popupProfile);
-    resetButtonSave(obj, popupProfile);
-    evt.preventDefault();
-  }
+  item.classList.add('popup_visible');
+  document.addEventListener("keydown", handleEscPress);
+}
+
+export function popupExit(item) {
+  item.classList.remove('popup_visible');
+  document.removeEventListener("keydown", handleEscPress);
+}
+
+function OpenEditProfile() {
+  inputFirst.value = profileSubtitle.textContent;
+  inputSecond.value = profileTitle.textContent;
+  popupEntrance(popupProfile);
+}
+export const resetButtonSave = (obj, item) => {
+  const buttonReset = item.querySelector(obj.submitButtonSelector);
+  buttonReset.classList.add(obj.inactiveButtonClass);
+};
+function addform(evt) {
+  profileSubtitle.textContent = inputFirst.value;
+  profileTitle.textContent = inputSecond.value;
+  popupExit(popupProfile);
+  resetButtonSave(obj, popupProfile);
+  evt.preventDefault();
+}
 
 
-  
-  const addCard = (name, link) => {
-    const card = new Card(name, link, '.element-template').generateCard();
+
+const addCard = (name, link) => {
+  const card = new Card(name, link, '.element-template').generateCard();
+  elements.prepend(card);
+};
+
+formImg.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  addCard(inputTarget.value, inputImg.value);
+  inputTarget.value = '';
+  inputImg.value = '';
+  popupExit(popupImg);
+  resetButtonSave(obj, popupImg);
+});
+
+const addInitialCards = (array) => {
+  array.forEach((item) => {
+    const card = new Card(item.name, item.link, '.element-template').generateCard();
     elements.prepend(card);
-  };
+  })
+};
 
-  formImg.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    addCard(inputTarget.value, inputImg.value);
-    inputTarget.value = '';
-    inputImg.value = '';
-    popupExit(popupImg);
-    resetButtonSave(obj, popupImg);
-  });
+addInitialCards(initialCards);
 
-  const addInitialCards = (array) => {
-    array.forEach((item) => {
-      const card = new Card(item.name, item.link, '.element-template');
-      const cardElement = card.generateCard();
-      elements.prepend(cardElement);
-    })
-  };
-  
-  addInitialCards(initialCards);
 
-  
-  function verificationClass() {
-    popupList.forEach((popupElement) => {
-      popupElement.addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('popup')) {
-          popupExit(evt.target);
-        }
-      });
-    })
-  }
-  verificationClass();
+function verificationClass() {
+  popupList.forEach((popupElement) => {
+    popupElement.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('popup')) {
+        popupExit(evt.target);
+      }
+    });
+  })
+}
+verificationClass();
 
 const formProfileValidator = new FormValidator(obj, formProfile);
 formProfileValidator.enableValidation();

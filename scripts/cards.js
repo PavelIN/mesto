@@ -1,7 +1,7 @@
-import {popupImgPre,imgPopup,imgTitle,imgClose,popupEntrance,popupExit} from "./index.js";
+import { popupImgPre, imgPopup, imgTitle, imgClose, popupEntrance, popupExit } from "./index.js";
 
 export default class Card {
-  constructor(name,link, cardSelector) {
+  constructor(name, link, cardSelector) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
@@ -29,13 +29,13 @@ export default class Card {
 
   _setEventListeners() {
     this._element.querySelector('.element__like-btn').addEventListener('click', () => {
-    this._handleMessageClick();
+      this._handleMessageClick();
     });
     this._element.querySelector('.element__trash').addEventListener('click', () => {
-    this._handleTrashClick();
+      this._handleTrashClick();
     });
     this._element.querySelector('.element__image').addEventListener('click', () => {
-    this._previewClick();
+      this._previewClick();
     });
     imgClose.addEventListener('click', () => {
       this._closePopupImg();
@@ -60,30 +60,4 @@ export default class Card {
   _closePopupImg() {
     popupExit(popupImgPre);
   };
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

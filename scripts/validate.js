@@ -1,5 +1,5 @@
 
-export  class FormValidator {
+export default class FormValidator {
 
   constructor(obj, formElement) {
     this._obj = obj;
@@ -41,27 +41,26 @@ export  class FormValidator {
     });
   };
 
-    enableValidation() {
-      this._setEventListeners();
-      this._formElement.addEventListener('submit', (event) => {
-        event.preventDefault();
-      })
-    };
+  enableValidation() {
+    this._setEventListeners();
+    this._formElement.addEventListener('submit', (event) => {
+      event.preventDefault();
+    })
+  };
 
 
 
-    _hasInvalidInput = () => {
-      return this._inputList.some((inputElement) => {
-        return !inputElement.validity.valid;
-      })
-    };
+  _hasInvalidInput = () => {
+    return this._inputList.some((inputElement) => {
+      return !inputElement.validity.valid;
+    })
+  };
 
-    toggleButtonState = () => {
-      if (this._hasInvalidInput()) {
-        this._buttonElement.classList.add(this._obj.inactiveButtonClass);
-      } else {
-        this._buttonElement.classList.remove(this._obj.inactiveButtonClass);
-      }
-    };
-  }
-  
+  toggleButtonState = () => {
+    if (this._hasInvalidInput()) {
+      this._buttonElement.classList.add(this._obj.inactiveButtonClass);
+    } else {
+      this._buttonElement.classList.remove(this._obj.inactiveButtonClass);
+    }
+  };
+}
