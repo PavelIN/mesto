@@ -63,4 +63,8 @@ export default class FormValidator {
       this._buttonElement.classList.remove(this._obj.inactiveButtonClass);
     }
   };
+  resetButtonSave = () => {
+    const buttonReset = this._formElement.querySelector(this._obj.submitButtonSelector);
+    buttonReset.classList.add(this._obj.inactiveButtonClass);
+  };
 }

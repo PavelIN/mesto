@@ -1,4 +1,5 @@
-import { popupImgPre, imgPopup, imgTitle, imgClose, popupEntrance, popupExit } from "./index.js";
+import { popupImgPre, imgPopup, imgTitle} from "./tools.js";
+import { popupEntrance} from "./index.js";
 
 export default class Card {
   constructor(name, link, cardSelector) {
@@ -20,10 +21,10 @@ export default class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._setEventListeners();
-
-    this._element.querySelector('.element__image').src = this._link;
+    const elementImage = this._element.querySelector('.element__image');
+    elementImage.src = this._link;
     this._element.querySelector('.element__text').textContent = this._name;
-    this._element.querySelector('.element__image').alt = this._name;
+    elementImage.alt = this._name;
     return this._element;
   }
 
@@ -37,9 +38,6 @@ export default class Card {
     this._element.querySelector('.element__image').addEventListener('click', () => {
       this._previewClick();
     });
-    imgClose.addEventListener('click', () => {
-      this._closePopupImg();
-    })
   }
 
   _handleMessageClick() {
@@ -48,6 +46,7 @@ export default class Card {
 
   _handleTrashClick() {
     this._element.remove();
+    this._element = null;
   }
 
 
@@ -56,8 +55,5 @@ export default class Card {
     imgTitle.textContent = this._name;
     imgTitle.alt = this._name;
     popupEntrance(popupImgPre);
-  };
-  _closePopupImg() {
-    popupExit(popupImgPre);
   };
 }
