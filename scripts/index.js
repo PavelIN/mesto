@@ -33,7 +33,7 @@ function addform(evt) {
   profileTitle.textContent = inputSecond.value;
   popupExit(popupProfile);
   evt.preventDefault();
-  blockSave(obj, formProfile);
+  formProfileValidator.resetButtonSave();
 }
 
 
@@ -49,11 +49,11 @@ formImg.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const inputOne = inputTarget.value;
   const inputTwo = inputImg.value;
-  inputTarget.value = '';
-  inputImg.value = '';
   addCard(inputOne, inputTwo);
   popupExit(popupImg);
-  blockSave(obj, formImg);
+  inputTarget.value = '';
+  inputImg.value = '';
+  formAddCardValidator.resetButtonSave();
 });
 
 const addInitialCards = (array) => {
@@ -65,12 +65,8 @@ const addInitialCards = (array) => {
 
 addInitialCards(initialCards);
 
-const blockSave = (obj, formElement) => {
-  const valid = new FormValidator(obj, formElement);
-  valid.resetButtonSave();
-};
 
-
+  
 function verificationClass() {
   popupList.forEach((popupElement) => {
     popupElement.addEventListener('click', (evt) => {
