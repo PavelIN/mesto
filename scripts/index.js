@@ -47,11 +47,13 @@ const addCard = (name, link) => {
 
 formImg.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  addCard(inputTarget.value, inputImg.value);
-  popupExit(popupImg);
-  blockSave(obj, formImg);
+  const inputOne = inputTarget.value;
+  const inputTwo = inputImg.value;
   inputTarget.value = '';
   inputImg.value = '';
+  addCard(inputOne, inputTwo);
+  popupExit(popupImg);
+  blockSave(obj, formImg);
 });
 
 const addInitialCards = (array) => {
