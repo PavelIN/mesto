@@ -1,6 +1,6 @@
 .profile__image-btn{
    
-    background: transparent url(../../../iamges/addbutton.svg)  no-repeat;
+    background: transparent url(../../../images/addbutton.svg)  no-repeat;
     background-size: contain;
     border: none;
     border-radius: 2px;
@@ -19,7 +19,7 @@
 
   @media screen and (max-width: 900px) {
     .profile__image-btn { 
-        background: transparent url(../../../iamges/addbuttonmobile.svg)  no-repeat;
+        background: transparent url(../../../images/addbuttonmobile.svg)  no-repeat;
       margin: auto;
       width: 282px;
     }

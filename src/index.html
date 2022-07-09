@@ -5,17 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
-    <link rel="stylesheet" href="pages/index.css">
 </head>
 
 <body class="body">
     <div class="page">
         <header class="header">
-            <img class="header__logo" src="./iamges/logo.svg" alt="Логотип Место">
+            <img class="header__logo" src="<%=require('../src/images/logo.svg')%>" alt="Логотип Место">
         </header>
         <main class="main">
             <section class="profile">
-                <img class="profile__avatar" src="./iamges/avatar.jpg" alt="фото профиля">
+                <img class="profile__avatar" src="<%=require('../src/images/avatar.jpg')%>" alt="фото профиля">
                 <div class="profile__info">
                     <div class="profile__info-container">
                         <h1 class="profile__subtitle">Жак-Ив Кусто</h1>
@@ -36,9 +35,9 @@
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form class="form" name="add-form" novalidate>
                     <fieldset class="form__set">
-                        <input  id="name" class="form__input form__input_item_name" type="text" name="name" placeholder="имя" required minlength="2" maxlength="40">
+                        <input  id="name" class="form__input form__input_item_name" type="text" name="profilename" placeholder="имя" required minlength="2" maxlength="40">
                         <span  class="form__input-error name-error" ></span>
-                        <input id="job" class="form__input form__input_item_job" type="text" name="name" placeholder="вид деятельности" required minlength="2" maxlength="200">
+                        <input id="job" class="form__input form__input_item_job" type="text" name="job" placeholder="вид деятельности" required minlength="2" maxlength="200">
                         <span  class="job-error form__input-error"></span>
                         <button class="form__save" type="submit">Сохранить</button>
                     </fieldset>
@@ -53,7 +52,7 @@
                     <fieldset class="form__set">
                         <input id="title"  class="form__input form__input_item_target" type="text" name="name" placeholder="Название" required  minlength="2" maxlength="30">
                         <span  class="form__input-error title-error"></span>
-                        <input id="link" class="form__input form__input_item_url" type="url" name="name" placeholder="Ссылка на картинку" required>
+                        <input id="link" class="form__input form__input_item_url" type="url" name="link" placeholder="Ссылка на картинку" required>
                         <span  class="form__input-error link-error"></span>
                         <button class="form__save " type="submit">Создать</button>
                     </fieldset>
@@ -78,7 +77,6 @@
             </div>
         </template>
     </div>
-    <script type="module" src= "./scripts/index.js"></script>
 </body>
 
 </html>
