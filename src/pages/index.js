@@ -33,7 +33,7 @@ editBtn.addEventListener('click', () => {
     job: info.job
   });
   formEditProfileValidator.resetValidation();
-  formEditProfileValidator.resetButtonSave();
+  formEditProfileValidator.resetButtonSave();/*попросили перенсти в открытие ,но у нас формы закрываются не сразу ,а 0.5сек , из за чего можно быстро прокликать и отправить кучу пустых форм,почему нельзя оставить при закрытии?*/
   editProfilePopup.open();
 });
 
