@@ -1,13 +1,13 @@
-import FormValidator from '../components/validate.js';
+import FormValidator from '../components/FormValidator.js';
 import Card from "../components/Card.js";
-import { editBtn, formProfile, obj, elements, formImg, imgBtn, initialCards, inputFirst, inputSecond } from "../components/tools.js";
+import { editBtn, formProfile, obj, elements, formImg, imgBtn, initialCards, inputFirst, inputSecond } from "../utils/tools.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import './index.css';
 
-function EditProfileFormInputs({ name, job }) {
+function editProfileFormInputs({ name, job }) {
   inputFirst.value = name;
   inputSecond.value = job;
 };
@@ -18,10 +18,9 @@ const userInfo = new UserInfo({
 });
 
 const editProfilePopup = new PopupWithForm({
-  popupSelector: '.popup_profile',
+  popup: '.popup_profile',
   handleFormSubmit: (dataForm) => {
     userInfo.setUserInfo(dataForm);
-    formEditProfileValidator.resetButtonSave();
     editProfilePopup.close();
   }
 });
@@ -29,10 +28,12 @@ editProfilePopup.setEventListeners();
 
 editBtn.addEventListener('click', () => {
   const info = userInfo.getUserInfo();
-  EditProfileFormInputs({
+  editProfileFormInputs({
     name: info.name,
     job: info.job
   });
+  formEditProfileValidator.resetValidation();
+  formEditProfileValidator.resetButtonSave();
   editProfilePopup.open();
 });
 
@@ -52,10 +53,9 @@ const createCard = (data) => {
 
 
 const addCardPopup = new PopupWithForm({
-  popupSelector: '.popup_url',
+  popup: '.popup_url',
   handleFormSubmit: (dataForm) => {
     cardsList.addItem(createCard(dataForm));
-    formAddNewCardValidator.resetButtonSave();
     addCardPopup.close();
   }
 });
@@ -63,6 +63,8 @@ const addCardPopup = new PopupWithForm({
 addCardPopup.setEventListeners();
 
 imgBtn.addEventListener('click', () => {
+  formAddNewCardValidator.resetButtonSave();
+  formAddNewCardValidator.resetValidation();
   addCardPopup.open();
 })
 

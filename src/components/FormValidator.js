@@ -59,11 +59,19 @@ export default class FormValidator {
   toggleButtonState = () => {
     if (this._hasInvalidInput()) {
       this.resetButtonSave();
+      this._buttonElement.setAttribute('disabled', 'disabled');
     } else {
       this._buttonElement.classList.remove(this._obj.inactiveButtonClass);
+      this._buttonElement.removeAttribute('disabled');
     }
   };
   resetButtonSave = () => {
     this._buttonElement.classList.add(this._obj.inactiveButtonClass);
   };
+  resetValidation() {
+    this.toggleButtonState();
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement) 
+    });
+  }
 }

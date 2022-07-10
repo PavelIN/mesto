@@ -18,6 +18,7 @@ export default class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._image = this._element.querySelector('.element__image');
+    this._like = this._element.querySelector('.element__like-btn');
     this._setEventListeners();
     this._image.src = this._link;
     this._image.alt = this._name;
@@ -42,8 +43,7 @@ export default class Card {
   }
 
   _handleLikeCard() {
-    const likeBtn = this._element.querySelector('.element__like-btn');
-    likeBtn.classList.toggle('element__like-btn_active');
+    this._like.classList.toggle('element__like-btn_active');
   }
 
 
