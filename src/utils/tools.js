@@ -54,3 +54,5 @@ export  const initialCards = [
   export const imgBtn = document.querySelector('.profile__image-btn');
   export const elements = document.querySelector('.elements');
   export const imgClose = document.querySelector('.popup__close_item_img');
+  export const avatarEdit = document.querySelector('.profile__container');
+  export const formAvatar = document.querySelector('.form-avatar');

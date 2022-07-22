@@ -1,11 +1,34 @@
 import FormValidator from '../components/FormValidator.js';
 import Card from "../components/Card.js";
-import { editBtn, formProfile, obj, elements, formImg, imgBtn, initialCards, inputFirst, inputSecond } from "../utils/tools.js";
+import { editBtn, formProfile, obj, elements, formImg, imgBtn, inputFirst, inputSecond,avatarEdit,formAvatar } from "../utils/tools.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import Api from "../components/Api.js";
 import './index.css';
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-46',
+  headers: {
+    authorization: 'bda37d30-eb0b-48f8-b6b1-703e26a88ba5',
+    'Content-Type': 'application/json'
+  }
+});
+
+Promise.all([api.getInitialCards(), api.getUserInfo()])
+  .then(([initialCards, userData]) => {
+    userInfo.setUserInfo(userData);
+    cardsList.renderItems(initialCards);
+  })
+  .catch((err) => {
+    console.log(`Ошибка: ${err}`);
+  });
+
+
+
+
+
 
 function editProfileFormInputs({ name, job }) {
   inputFirst.value = name;
@@ -14,15 +37,45 @@ function editProfileFormInputs({ name, job }) {
 
 const userInfo = new UserInfo({
   name: '.profile__subtitle',
-  job: '.profile__title'
+  job: '.profile__title',
+  avatar: '.profile__avatar'
 });
+
+const editAvatar = new PopupWithForm({
+  popup: '.popup_type_avatar',
+  handleFormSubmit: (dataAvatar) => {
+    api.editAvatar(dataAvatar)
+    .then((dataAvatar) => {
+    userInfo.setUserInfo(dataAvatar);
+    editAvatar.close();
+    })
+  }
+});
+editAvatar.setEventListeners();
+
+avatarEdit.addEventListener('click', () => {
+  editAvatar.open();
+});
+
+
+
 
 const editProfilePopup = new PopupWithForm({
   popup: '.popup_profile',
   handleFormSubmit: (dataForm) => {
-    userInfo.setUserInfo(dataForm);
-    editProfilePopup.close();
-  }
+    editProfilePopup.loading(true);
+    api.editUserInfo(dataForm)
+    .then((dataForm) => {
+      userInfo.setUserInfo(dataForm);
+      editProfilePopup.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      editProfilePopup.loading(false);
+    });
+}
 });
 editProfilePopup.setEventListeners();
 
@@ -32,7 +85,6 @@ editBtn.addEventListener('click', () => {
     name: info.name,
     job: info.job
   });
-  formEditProfileValidator.resetValidation();
   editProfilePopup.open();
 });
 
@@ -62,7 +114,6 @@ const addCardPopup = new PopupWithForm({
 addCardPopup.setEventListeners();
 
 imgBtn.addEventListener('click', () => {
-  formAddNewCardValidator.resetValidation();
   addCardPopup.open();
 })
 
@@ -71,7 +122,6 @@ viewImagePopup.setEventListeners();
 
 
 const cardsList = new Section({
-  items: initialCards,
   renderer: (item) => {
     cardsList.addItem(createCard(item));
   },
@@ -81,5 +131,9 @@ cardsList.renderItems();
 
 const formEditProfileValidator = new FormValidator(obj, formProfile);
 formEditProfileValidator.enableValidation();
+
 const formAddNewCardValidator = new FormValidator(obj, formImg);
 formAddNewCardValidator.enableValidation();
+
+const formAddNewAvatarValidator = new FormValidator(obj, formAvatar);
+formAddNewAvatarValidator.enableValidation();
