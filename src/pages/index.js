@@ -104,6 +104,19 @@ const createCard = (data) => {
     data: data,
     handleCardClick: (name, Link) => {
       viewImagePopup.open(name, Link);
+    },
+    handleDeleteCard: (cardId) => {
+    api.deleteCard(cardId)
+    .then((cardId) => {
+      card.deleteCard();
+      console.log(cardId)
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      editProfilePopup.loading(false);
+    });
     }
   }, '.element-template');
   const cardElement = card.generateCard();
@@ -115,8 +128,18 @@ const createCard = (data) => {
 const addCardPopup = new PopupWithForm({
   popup: '.popup_url',
   handleFormSubmit: (dataForm) => {
+    addCardPopup.loading(true);
+    api.addCard(dataForm)
+    .then((dataForm) => {
     cardsList.addItem(createCard(dataForm));
     addCardPopup.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      addCardPopup.loading(false);
+    });
   }
 });
 
