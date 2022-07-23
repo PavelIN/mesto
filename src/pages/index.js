@@ -44,16 +44,24 @@ const userInfo = new UserInfo({
 const editAvatar = new PopupWithForm({
   popup: '.popup_type_avatar',
   handleFormSubmit: (dataAvatar) => {
+    editAvatar.loading(true)
     api.editAvatar(dataAvatar)
     .then((dataAvatar) => {
     userInfo.setUserInfo(dataAvatar);
     editAvatar.close();
     })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      editAvatar.loading(false);
+    });
   }
 });
 editAvatar.setEventListeners();
 
 avatarEdit.addEventListener('click', () => {
+  formAddNewAvatarValidator.resetValidation();
   editAvatar.open();
 });
 
@@ -86,6 +94,7 @@ editBtn.addEventListener('click', () => {
     job: info.job
   });
   editProfilePopup.open();
+  formEditProfileValidator.resetValidation();
 });
 
 
@@ -114,6 +123,7 @@ const addCardPopup = new PopupWithForm({
 addCardPopup.setEventListeners();
 
 imgBtn.addEventListener('click', () => {
+  formAddNewCardValidator.resetValidation();
   addCardPopup.open();
 })
 
@@ -126,7 +136,8 @@ const cardsList = new Section({
     cardsList.addItem(createCard(item));
   },
 }, elements);
-cardsList.renderItems();
+
+
 
 
 const formEditProfileValidator = new FormValidator(obj, formProfile);
