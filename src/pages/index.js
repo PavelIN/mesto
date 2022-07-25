@@ -16,10 +16,15 @@ const api = new Api({
   }
 });
 
+
+let userId;
+
 Promise.all([api.getInitialCards(), api.getUserInfo()])
   .then(([initialCards, userData]) => {
     userInfo.setUserInfo(userData);
     cardsList.renderItems(initialCards);
+     userId = userData._id;
+     console.log(userId);
   })
   .catch((err) => {
     console.log(`Ошибка: ${err}`);
@@ -27,13 +32,6 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
 
 
 
-
-
-
-function editProfileFormInputs({ name, job }) {
-  inputFirst.value = name;
-  inputSecond.value = job;
-};
 
 const userInfo = new UserInfo({
   name: '.profile__subtitle',
@@ -65,7 +63,10 @@ avatarEdit.addEventListener('click', () => {
   editAvatar.open();
 });
 
-
+function editProfileFormInputs({ name, job }) {
+  inputFirst.value = name;
+  inputSecond.value = job;
+};
 
 
 const editProfilePopup = new PopupWithForm({
@@ -102,6 +103,7 @@ editBtn.addEventListener('click', () => {
 const createCard = (data) => {
   const card = new Card({
     data: data,
+    userId:userId,
     handleCardClick: (name, Link) => {
       viewImagePopup.open(name, Link);
     },
