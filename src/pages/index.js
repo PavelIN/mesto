@@ -6,6 +6,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Api from "../components/Api.js";
+import DeletePopupCard from "../components/DeletePopupCard.js";
 import './index.css';
 
 const api = new Api({
@@ -21,17 +22,17 @@ let userId;
 
 Promise.all([api.getInitialCards(), api.getUserInfo()])
   .then(([initialCards, userData]) => {
+    userId = userData._id;
     userInfo.setUserInfo(userData);
     cardsList.renderItems(initialCards);
-     userId = userData._id;
-     console.log(userId);
   })
   .catch((err) => {
     console.log(`Ошибка: ${err}`);
   });
 
-
-
+  
+  
+ 
 
 const userInfo = new UserInfo({
   name: '.profile__subtitle',
@@ -98,28 +99,30 @@ editBtn.addEventListener('click', () => {
   formEditProfileValidator.resetValidation();
 });
 
+const deleteCardPopup = new DeletePopupCard ('.popup_type_delete-card');
+deleteCardPopup.setEventListeners();
 
 
 const createCard = (data) => {
   const card = new Card({
     data: data,
-    userId:userId,
+    userId: userId,
     handleCardClick: (name, Link) => {
       viewImagePopup.open(name, Link);
     },
     handleDeleteCard: (cardId) => {
-    api.deleteCard(cardId)
-    .then((cardId) => {
-      card.deleteCard();
-      console.log(cardId)
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    })
-    .finally(() => {
-      editProfilePopup.loading(false);
-    });
-    }
+      deleteCardPopup.open();
+      deleteCardPopup.submitCallback(() => {
+        api.deleteCard(cardId)
+          .then(() => {
+            deleteCardPopup.close();
+            card.deleteCard();
+          })
+          .catch((err) => {
+            console.log(`Ошибка: ${err}`);
+          });
+      });
+    },
   }, '.element-template');
   const cardElement = card.generateCard();
   return cardElement;

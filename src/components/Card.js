@@ -1,5 +1,6 @@
 export default class Card {
   constructor({ data,userId, handleCardClick,handleDeleteCard}, cardSelector) {
+    console.log(userId);
     this._handleDeleteCard = handleDeleteCard
     this._cardId = data._id
     this._cardOwnerId = data.owner._id;
