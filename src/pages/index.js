@@ -26,8 +26,8 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
     userInfo.setUserInfo(userData);
     cardsList.renderItems(initialCards);
   })
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`);
+  .catch((error) => {
+    console.log(`Ошибка: ${error}`);
   });
 
   
@@ -49,8 +49,8 @@ const editAvatar = new PopupWithForm({
     userInfo.setUserInfo(dataAvatar);
     editAvatar.close();
     })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
+    .catch((error) => {
+      console.log(`Ошибка: ${error}`);
     })
     .finally(() => {
       editAvatar.loading(false);
@@ -79,8 +79,8 @@ const editProfilePopup = new PopupWithForm({
       userInfo.setUserInfo(dataForm);
       editProfilePopup.close();
     })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
+    .catch((error) => {
+      console.log(`Ошибка: ${error}`);
     })
     .finally(() => {
       editProfilePopup.loading(false);
@@ -118,9 +118,27 @@ const createCard = (data) => {
             deleteCardPopup.close();
             card.deleteCard();
           })
-          .catch((err) => {
-            console.log(`Ошибка: ${err}`);
+          .catch((error) => {
+            console.log(`Ошибка: ${error}`);
           });
+      });
+    },
+    handleAddLike: (cardId) => {
+      api.setLike(cardId) 
+      .then((likes) => {
+        card.handleLikeCard(likes);
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
+      });
+    },
+    handleRemoveLike: (cardId) => {
+      api.deleteLike(cardId) 
+      .then((likes) => {
+        card.handleLikeCard(likes);
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
       });
     },
   }, '.element-template');
@@ -139,8 +157,8 @@ const addCardPopup = new PopupWithForm({
     cardsList.addItem(createCard(dataForm));
     addCardPopup.close();
     })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
+    .catch((error) => {
+      console.log(`Ошибка: ${error}`);
     })
     .finally(() => {
       addCardPopup.loading(false);
