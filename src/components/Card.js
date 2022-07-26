@@ -12,7 +12,6 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._handleAddLike = handleAddLike;
     this._handleRemoveLike = handleRemoveLike;
-    console.log(data);
   }
 
   _getTemplate() {
