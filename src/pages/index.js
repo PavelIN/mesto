@@ -18,11 +18,8 @@ const api = new Api({
 });
 
 
-let userId;
-
 Promise.all([api.getInitialCards(), api.getUserInfo()])
   .then(([initialCards, userData]) => {
-    userId = userData._id;
     userInfo.setUserInfo(userData);
     cardsList.renderItems(initialCards);
   })
@@ -106,7 +103,7 @@ deleteCardPopup.setEventListeners();
 const createCard = (data) => {
   const card = new Card({
     data: data,
-    userId: userId,
+    userId: userInfo.getId(),
     handleCardClick: (name, Link) => {
       viewImagePopup.open(name, Link);
     },

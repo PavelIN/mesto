@@ -14,10 +14,14 @@ export default class UserInfo {
     return userInfo;
   }
 
+  getId(){
+    return this._userid;
+  }
 
   setUserInfo(userdata) {
     this._name.textContent = userdata.name;
     this._job.textContent = userdata.about;
     this._avatar.src = userdata.avatar;
+    this._userid = userdata._id;
   }
 }
